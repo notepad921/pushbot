@@ -1,4 +1,6 @@
-TOKEN = "1209122889:AAEQocM53fjTteFxXsb8G5NZmbnPrRXKcv8"
+import os
+
+TOKEN = os.environ.get("TOKEN")
 
 name = "@olgabondar"
 chat_id = 188594475
