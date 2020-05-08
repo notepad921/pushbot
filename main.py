@@ -51,4 +51,8 @@ bot = telebot.TeleBot(TOKEN)
 
 weekday = check_weekday()
 person = choose_person(weekday)
-send_text(chat_id, person)
+
+if person is not None:
+    send_push(chat_id, person)
+else:
+    pass
