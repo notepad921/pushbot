@@ -39,7 +39,7 @@ def choose_person(local_weekday):
     elif local_weekday is 5:
         local_person = persons.get(2)
     else:
-        return persons.get(1)
+        return None
     return local_person
 
 
@@ -74,12 +74,16 @@ def action_generator():
 
 
 def send_push(local_chat_id, local_person, local_damn, local_action):
+    """Send message via telegram"""
+
     text = f"{local_person[1]}, {local_damn}, ты сегодня дежуришь!\nhttps://wiki.1cupis.org/display/DBT/Checklists\n\n" \
            f"Ну и @NVVitalii, как обычно, {local_action}, {vitaly_damn}."
     bot.send_message(local_chat_id, text)
 
 
 def send_text(local_person, local_damn, local_action):
+    """testing only"""
+
     text = f"{local_person[1]}, {local_damn}, ты сегодня дежуришь!\nhttps://wiki.1cupis.org/display/DBT/Checklists\n\n" \
            f"Ну и @NVVitalii, как обычно, {local_action}, {vitaly_damn}."
     print(text)
@@ -90,14 +94,11 @@ bot = telebot.TeleBot(TOKEN)
 weekday = check_weekday()
 person = choose_person(weekday)
 action = action_generator()
-
 damn = damn_generator(person[2])
 vitaly_damn = damn_generator("male")
 
-send_text(person, damn, action)
 
 if person is not None:
-    #send_push(chat_id, person, damn, action)
-    pass
+    send_push(chat_id, person, damn, action)
 else:
     pass
