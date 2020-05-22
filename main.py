@@ -1,23 +1,34 @@
 # -*- coding: utf-8 -*-
 
-from datetime import date
-import telebot
 import random
+import requests
+from requests import adapters
+from datetime import date
 
-TOKEN = "1209122889:AAEQocM53fjTteFxXsb8G5NZmbnPrRXKcv8"
+import telebot
 
-# key:(name, tg nickname, gender)
-persons = {0: ("Ольга", "@olgabondar", "female"),
-           1: ("Алина", "@alice_in_the_field", "female"),
-           2: ("Ильяс", "@irtimir", "male"),
-           3: ("Дмитрий", "@zvrvdmtr", "male"),
-           4: ("Кирилл", "@butusk0", "male"),
-           5: ("Антон", "@@qqwerty228", "male")
-           }
+import settings
 
 
-chat_id = -494735017  # тестовый
-# chat_id = -1001132572105 # BTEAM
+def check_is_day_off():
+    """Get data about working/non working day from isdayoff.ru
+    0 - working day
+    1 - day-off
+    100 - wrong date
+    101 - not found"""
+
+    local_date = date.today().isoformat().replace("-", "")
+
+    requests.adapters.DEFAULT_RETRIES = settings.DEFAULT_RETRIES
+    url = f"http://isdayoff.ru/{local_date}"
+
+    try:
+        local_is_day_off = requests.get(url).text
+    except requests.exceptions.ConnectionError:
+        print("No connection with isdayoff.ru")
+        local_is_day_off = None
+
+    return False if local_is_day_off is "0" else True
 
 
 def check_weekday():
@@ -29,76 +40,82 @@ def choose_person(local_weekday):
     """Person selection schedule"""
 
     if local_weekday is 1:
-        local_person = persons.get(1)
+        local_person = settings.persons.get(0)
     elif local_weekday is 2:
-        local_person = persons.get(4)
+        local_person = settings.persons.get(1)
     elif local_weekday is 3:
-        local_person = persons.get(5)
+        local_person = settings.persons.get(2)
     elif local_weekday is 4:
-        local_person = persons.get(3)
+        local_person = settings.persons.get(3)
     elif local_weekday is 5:
-        local_person = persons.get(2)
+        local_person = settings.persons.get(4)
     else:
         return None
     return local_person
 
 
-def damn_generator(gender):
+def check_gender(local_person):
+    return local_person[2]
+
+
+def damn_generator(local_gender):
     """Generating damn based on the gender of the person"""
 
-    end = "ая" if gender is "female" else "ый"
-
-    damn_adjective = (f"псоват{end}", f"криворук{end}", f"дебиловат{end}", f"пупырчат{end}", f"придурковат{end}",
-                      f"блохаст{end}", f"рукожоп{end}", f"облезл{end}", f"ушаст{end}", f"мордат{end}",
-                      f"безсоромн{end}", f"королоб{end}", f"безмозгл{end}", f"плешив{end}")
-
-    damn_noun = (("антихрист", "антихристка"), ("безобразник", "безобразница"), ("баламошка", "баламошка"),
-                 ("коломесъ", "коломеска"), ("курощупъ", "курощупка"), ("засранец", "засранка"), ("каналья", "каналья"),
-                 ("елдыга", "елдыга"), ("межеумокъ", "межеумка"), ("рукоблуд", "визгопряха"), ("куёлда", "куёлда"),
-                 ("пеньтюхъ", "загузастка"), ("хандрыга", "хандрыга"))
+    end = "ая" if local_gender is "female" else "ый"
 
     if gender is "female":
-        local_damn = f"{random.choice(damn_noun)[1]} {random.choice(damn_adjective)}"
+        noun = settings.damn_noun_list.pop(random.randint(0, len(settings.damn_noun_list)-1))[1]
+        adjective = settings.damn_adjective_list.pop(random.randint(0, len(settings.damn_adjective_list)-1)) + end
     else:
-        local_damn = f"{random.choice(damn_noun)[0]} {random.choice(damn_adjective)}"
+        noun = settings.damn_noun_list.pop(random.randint(0, len(settings.damn_noun_list) - 1))[0]
+        adjective = settings.damn_adjective_list.pop(random.randint(0, len(settings.damn_adjective_list) - 1)) + end
+
+    local_damn = f"{noun} {adjective}"
 
     return local_damn
 
 
 def action_generator():
     action_list = ("двигает таски", "продалбывается", "покупает джинсы", "сидит на синках",
-                   "сидит на менеджерском стуле", "ест", "торгует скриптой")
+                   "сидит на менеджерском стуле", "ест", "не борется с Дмитрием", "торгует скриптой")
 
     local_action = f"{random.choice(action_list)}"
     return local_action
 
 
-def send_push(local_chat_id, local_person, local_damn, local_action):
+def send_push(local_chat_id, local_person, local_damn, local_action, local_manager):
     """Send message via telegram"""
 
     text = f"{local_person[1]}, {local_damn}, ты сегодня дежуришь!\nhttps://wiki.1cupis.org/display/DBT/Checklists\n\n" \
-           f"Ну и @NVVitalii, как обычно, {local_action}, {vitaly_damn}."
+           f"Ну и {local_manager[1]}, как обычно, {local_action}, {manager_damn}."
     bot.send_message(local_chat_id, text)
 
 
-def send_text(local_person, local_damn, local_action):
+def send_text(local_person, local_damn, local_action, local_manager):
     """testing only"""
 
     text = f"{local_person[1]}, {local_damn}, ты сегодня дежуришь!\nhttps://wiki.1cupis.org/display/DBT/Checklists\n\n" \
-           f"Ну и @NVVitalii, как обычно, {local_action}, {vitaly_damn}."
+           f"Ну и {local_manager[1]}, как обычно, {local_action}, {manager_damn}."
     print(text)
 
 
-bot = telebot.TeleBot(TOKEN)
+bot = telebot.TeleBot(settings.TOKEN)
 
+damn_noun_list = settings.damn_noun_list.copy()
+damn_adjective_list = settings.damn_adjective_list.copy()
+
+manager = settings.persons.get("manager")
 weekday = check_weekday()
+is_day_off = check_is_day_off()
 person = choose_person(weekday)
+gender = check_gender(person)
 action = action_generator()
-damn = damn_generator(person[2])
-vitaly_damn = damn_generator("male")
+
+damn = damn_generator(gender) if person else None
+manager_damn = damn_generator(manager[2])
 
 
-if person is not None:
-    send_push(chat_id, person, damn, action)
+if person and (is_day_off is False):
+    send_text(person, damn, action, manager)
 else:
-    pass
+    print("Сегодня не дежурим")
