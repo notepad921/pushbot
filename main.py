@@ -64,11 +64,11 @@ def damn_generator(local_gender):
     end = "ая" if local_gender is "female" else "ый"
 
     if gender is "female":
-        noun = settings.damn_noun_list.pop(random.randint(0, len(settings.damn_noun_list)-1))[1]
-        adjective = settings.damn_adjective_list.pop(random.randint(0, len(settings.damn_adjective_list)-1)) + end
+        noun = damn_noun_list.pop(random.randint(0, len(damn_noun_list)-1))[1]
+        adjective = damn_adjective_list.pop(random.randint(0, len(damn_adjective_list)-1)) + end
     else:
-        noun = settings.damn_noun_list.pop(random.randint(0, len(settings.damn_noun_list) - 1))[0]
-        adjective = settings.damn_adjective_list.pop(random.randint(0, len(settings.damn_adjective_list) - 1)) + end
+        noun = damn_noun_list.pop(random.randint(0, len(damn_noun_list) - 1))[0]
+        adjective = damn_adjective_list.pop(random.randint(0, len(damn_adjective_list) - 1)) + end
 
     local_damn = f"{noun} {adjective}"
 
