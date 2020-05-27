@@ -10,17 +10,16 @@ import telebot
 import settings
 
 
-def check_is_day_off():
+def check_is_day_off(local_date):
     """Get data about working/non working day from isdayoff.ru
     0 - working day
     1 - day-off
     100 - wrong date
     101 - not found"""
 
-    local_date = date.today().isoformat().replace("-", "")
-
+    formatted_date = local_date.isoformat().replace("-", "")  # formatting date to view "YYYYMMDD" for correct request
     requests.adapters.DEFAULT_RETRIES = settings.DEFAULT_RETRIES
-    url = f"http://isdayoff.ru/{local_date}"
+    url = f"http://isdayoff.ru/{formatted_date}"
 
     try:
         local_is_day_off = requests.get(url).text
@@ -55,11 +54,12 @@ def choose_person(local_weekday):
 
 
 def check_gender(local_person):
+    """Gender checking is based on "persons" from local.py"""
     return local_person[2]
 
 
 def damn_generator(local_gender):
-    """Generating damn based on the gender of the person"""
+    """Damn generating is based on the person`s gender"""
 
     end = "ая" if local_gender is "female" else "ый"
 
@@ -76,10 +76,9 @@ def damn_generator(local_gender):
 
 
 def action_generator():
-    action_list = ("двигает таски", "продалбывается", "покупает джинсы", "сидит на синках",
-                   "сидит на менеджерском стуле", "ест", "не борется с Дмитрием", "торгует скриптой")
+    """Generating manager`s action"""
 
-    local_action = f"{random.choice(action_list)}"
+    local_action = f"{random.choice(settings.manager_action_list)}"
     return local_action
 
 
@@ -106,7 +105,7 @@ damn_adjective_list = settings.damn_adjective_list.copy()
 
 manager = settings.persons.get("manager")
 weekday = check_weekday()
-is_day_off = check_is_day_off()
+is_day_off = check_is_day_off(date.today())
 person = choose_person(weekday)
 gender = check_gender(person)
 action = action_generator()
