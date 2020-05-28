@@ -30,8 +30,8 @@ def check_is_day_off(local_date):
     return False if local_is_day_off is "0" else True
 
 
-def check_weekday():
-    local_weekday = date.today().isoweekday()
+def check_weekday(local_date):
+    local_weekday = local_date.isoweekday()
     return local_weekday
 
 
@@ -104,7 +104,7 @@ damn_noun_list = settings.damn_noun_list.copy()
 damn_adjective_list = settings.damn_adjective_list.copy()
 
 manager = settings.persons.get("manager")
-weekday = check_weekday()
+weekday = check_weekday(date.today())
 is_day_off = check_is_day_off(date.today())
 person = choose_person(weekday)
 gender = check_gender(person)
