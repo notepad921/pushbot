@@ -31,6 +31,8 @@ def check_is_day_off(local_date):
 
 
 def check_weekday(local_date):
+    """Get the serial number of the day of the week. Monday is 1, tuesday is 2 etc."""
+
     local_weekday = local_date.isoweekday()
     return local_weekday
 
