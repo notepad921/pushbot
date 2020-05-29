@@ -3,7 +3,7 @@
 
 # General information
 
-Бот по расписанию отправляет ругательное сообщение дежурному и менеджеру в чате, куда добавлен.
+Бот отправляет ругательное сообщение и информационную ссылку дежурному и менеджеру в чате, куда добавлен.
 
 
 # System requirements
@@ -15,36 +15,42 @@
 ```tree
 settings/                <= Project settings
     local.example.py     <= Local settings
+    dictionary.py        <= Datasets for generation
+src/                     <= The most important things are here
 tests/                   <= Tests
 ```
 
 ## Quick start
 
-Copy settings:
+1. Copy settings:
 
-```bash
-cp settings/local.example.py settings/local.py
-```
-Install virtual environment package for python, for example python3-venv:
+    ```bash
+    cp settings/local.example.py settings/local.py
+    ```
+2. Fill local.py.
 
-```bash
-sudo apt install -y python3-venv
-```
+3. Install virtual environment package for python, for example python3-venv:
 
-Create virtual environment in the project directory:
+    ```bash
+    sudo apt install -y python3-venv
+    ```
 
-```bash
-python3 -m venv .env
-```
+4. Create virtual environment in the project directory:
 
-Activate your virtual environment:
+    ```bash
+    python3 -m venv .env
+    ```
 
-```bash
-source .env/bin/activate
-```
+5. Activate your virtual environment:
 
-Install requirements:
+    ```bash
+    source .env/bin/activate
+    ```
 
-```bash
-pip install -r requirements.txt
-```
+6. Install requirements:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+   
+7. Configure launching of the main.py script at the right time (for example, via cron).
