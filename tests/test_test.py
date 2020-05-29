@@ -1,4 +1,4 @@
-from main import check_is_day_off, check_weekday, choose_person, check_gender, action_generator, damn_generator
+from src.main import check_is_day_off, check_weekday, choose_person, check_gender, action_generator, damn_generator
 
 
 def test_check_is_day_off(get_date):
