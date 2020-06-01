@@ -1,7 +1,7 @@
-import pytest
+import settings
 
-from src.main import check_is_day_off, check_weekday, choose_person, check_gender, \
-    action_generator, damn_generator, generate_text, send_push
+from src.main import check_is_day_off, check_weekday, choose_person, check_gender, action_generator,\
+    damn_generator, generate_text, send_push
 
 
 def test_check_is_day_off(get_date):

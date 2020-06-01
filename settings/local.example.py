@@ -1,4 +1,4 @@
-TOKEN = ""  # Telegram bot token
+TOKEN = "your_token"  # Telegram bot token
 
 # key:(name, tg nickname, gender "male" or "female")
 person_list = {0: ("Name", "@nickname", "male / female"),  # monday
