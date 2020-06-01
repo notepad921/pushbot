@@ -67,12 +67,12 @@ def damn_generator(local_gender, local_damn_noun_list, local_damn_adjective_list
     noun_list_len = len(local_damn_noun_list)
     adj_list_len = len(local_damn_adjective_list)
 
-    if gender == "female":
-        noun = local_damn_noun_list.pop(random.randint(0, noun_list_len-1))[1]
-        adjective = local_damn_adjective_list.pop(random.randint(0, adj_list_len-1)) + end
+    if local_gender == "female":
+        noun = local_damn_noun_list.pop(random.randint(0, noun_list_len - 1))[1]
+        adjective = local_damn_adjective_list.pop(random.randint(0, adj_list_len - 1)) + end
     else:
-        noun = local_damn_noun_list.pop(random.randint(0, noun_list_len-1))[0]
-        adjective = local_damn_adjective_list.pop(random.randint(0, adj_list_len-1)) + end
+        noun = local_damn_noun_list.pop(random.randint(0, noun_list_len - 1))[0]
+        adjective = local_damn_adjective_list.pop(random.randint(0, adj_list_len - 1)) + end
 
     local_damn = f"{noun} {adjective}"
 
@@ -86,20 +86,25 @@ def action_generator(local_manager_action_list):
     return local_action
 
 
-def send_push(local_chat_id, local_person, local_damn, local_action, local_manager, local_link):
+def generate_text(local_person, local_damn, local_action, local_manager, local_manager_damn, local_link):
+    """Generate text for message"""
+
+    local_text = f"{local_person[1]}, {local_damn}, ты сегодня дежуришь!\n{local_link}\n\n" \
+                 f"Ну и {local_manager[1]}, как обычно, {local_action}, {local_manager_damn}."
+    print(local_text)
+    return local_text
+
+
+def send_push(local_chat_id, local_text):
     """Send message via telegram"""
 
-    text = f"{local_person[1]}, {local_damn}, ты сегодня дежуришь!\n{local_link}\n\n" \
-           f"Ну и {local_manager[1]}, как обычно, {local_action}, {manager_damn}."
-    bot.send_message(local_chat_id, text)
-
-
-def send_text(local_person, local_damn, local_action, local_manager, local_link):
-    """testing only"""
-
-    text = f"{local_person[1]}, {local_damn}, ты сегодня дежуришь!\n{local_link}\n\n" \
-           f"Ну и {local_manager[1]}, как обычно, {local_action}, {manager_damn}."
-    print(text)
+    try:
+        bot.send_message(local_chat_id, local_text)
+        success = True
+    except OSError as error:
+        print(f"\n{error}\nCпасибо Роскомнадзору!")
+        success = False
+    return success
 
 
 bot = telebot.TeleBot(settings.TOKEN)
@@ -118,8 +123,9 @@ action = action_generator(settings.manager_action_list)
 damn = damn_generator(gender, damn_noun_list, damn_adjective_list) if person else None
 manager_damn = damn_generator(manager[2], damn_noun_list, damn_adjective_list)
 
+text = generate_text(person, damn, action, manager, manager_damn, settings.link)
 
 if person and (is_day_off is False):
-    send_text(person, damn, action, manager, settings.link)
+    send_push(settings.chat_id, text)
 else:
     print("Сегодня не дежурим")

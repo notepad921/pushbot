@@ -1,4 +1,7 @@
-from src.main import check_is_day_off, check_weekday, choose_person, check_gender, action_generator, damn_generator
+import pytest
+
+from src.main import check_is_day_off, check_weekday, choose_person, check_gender, \
+    action_generator, damn_generator, generate_text, send_push
 
 
 def test_check_is_day_off(get_date):
@@ -40,3 +43,22 @@ def test_damn_generator(get_gender, get_damn_noun_list, get_damn_adjective_list)
     assert adj_end == expected_adj_end
     assert noun not in get_damn_noun_list
     assert adj not in get_damn_adjective_list
+
+
+def test_generate_text(get_data_for_text):
+    """Checking the correct assembly of the message`s text."""
+
+    person, damn, action, manager, manager_damn, link = get_data_for_text
+
+    text = generate_text(person, damn, action, manager, manager_damn, link)
+    assert text == """@test_tatyana, безобразница незавидная, ты сегодня дежуришь!
+https://www.google.com/
+
+Ну и @test_oleg, как обычно, двигает таски, баламошка дебиловатый."""
+
+
+def test_send_push(get_data_for_push):
+    """Temporary check of success of sending a message via telegram."""
+    chat_id, text = get_data_for_push
+    success = send_push(chat_id, text)
+    assert success is True
