@@ -27,7 +27,7 @@ def check_is_day_off(local_date):
         print("No connection with isdayoff.ru")
         local_is_day_off = None
 
-    return False if local_is_day_off is "0" else True
+    return False if local_is_day_off == "0" else True
 
 
 def check_weekday(local_date):
@@ -40,15 +40,15 @@ def check_weekday(local_date):
 def choose_person(local_weekday, local_person_list):
     """Person selection schedule"""
 
-    if local_weekday is 1:
+    if local_weekday == 1:
         local_person = local_person_list.get(0)
-    elif local_weekday is 2:
+    elif local_weekday == 2:
         local_person = local_person_list.get(1)
-    elif local_weekday is 3:
+    elif local_weekday == 3:
         local_person = local_person_list.get(2)
-    elif local_weekday is 4:
+    elif local_weekday == 4:
         local_person = local_person_list.get(3)
-    elif local_weekday is 5:
+    elif local_weekday == 5:
         local_person = local_person_list.get(4)
     else:
         return None
@@ -63,11 +63,11 @@ def check_gender(local_person):
 def damn_generator(local_gender, local_damn_noun_list, local_damn_adjective_list):
     """Damn generating is based on the person`s gender"""
 
-    end = "ая" if local_gender is "female" else "ый"
+    end = "ая" if local_gender == "female" else "ый"
     noun_list_len = len(local_damn_noun_list)
     adj_list_len = len(local_damn_adjective_list)
 
-    if gender is "female":
+    if gender == "female":
         noun = local_damn_noun_list.pop(random.randint(0, noun_list_len-1))[1]
         adjective = local_damn_adjective_list.pop(random.randint(0, adj_list_len-1)) + end
     else:
