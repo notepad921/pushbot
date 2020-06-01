@@ -31,5 +31,5 @@ jobs:
       shell: bash
       run: |
         cp settings/local.example.py settings/local.py
-        sed 's/your_token/${{ secrets.TELEGRAM_TOKEN }}/w output' settings/.local.py
+        sed 's/your_token/${{ secrets.TELEGRAM_TOKEN }}/w output' settings/local.py
         pytest -v
