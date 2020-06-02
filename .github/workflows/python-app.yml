@@ -31,6 +31,6 @@ jobs:
       shell: bash
       run: |
         cp settings/local.example.py settings/local.py
-        sed 's/your_token/${{ secrets.TELEGRAM_TOKEN }}/w settings/local.py' settings/local.py
+        sed 's/your_token/${{ secrets.TELEGRAM_TOKEN }}/w local.py' settings/local.py
         cat settings/local.py
         pytest -v
