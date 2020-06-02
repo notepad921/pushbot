@@ -41,15 +41,15 @@ def choose_person(local_weekday, local_person_list):
     """Person selection schedule"""
 
     if local_weekday == 1:
-        local_person = local_person_list.get(0)
+        local_person = local_person_list.get(0, None)
     elif local_weekday == 2:
-        local_person = local_person_list.get(1)
+        local_person = local_person_list.get(1, None)
     elif local_weekday == 3:
-        local_person = local_person_list.get(2)
+        local_person = local_person_list.get(2, None)
     elif local_weekday == 4:
-        local_person = local_person_list.get(3)
+        local_person = local_person_list.get(3, None)
     elif local_weekday == 5:
-        local_person = local_person_list.get(4)
+        local_person = local_person_list.get(4, None)
     else:
         return None
     return local_person
@@ -57,7 +57,10 @@ def choose_person(local_weekday, local_person_list):
 
 def check_gender(local_person):
     """Gender checking is based on "persons" from local.py"""
-    return local_person[2]
+    if local_person:
+        return local_person[2]
+    else:
+        return None
 
 
 def damn_generator(local_gender, local_damn_noun_list, local_damn_adjective_list):

@@ -24,7 +24,8 @@ def test_choose_person(get_person_list):
 def test_check_gender(get_person_list):
     gender0 = check_gender(get_person_list[0])
     gender1 = check_gender(get_person_list[1])
-    assert gender0 == "male" and gender1 == "female"
+    gender2 = check_gender(None)
+    assert gender0 == "male" and gender1 == "female" and gender2 is None
 
 
 def test_action_generator(get_manager_action_list):

@@ -22,8 +22,8 @@ def get_person_list():
 
 
 @pytest.fixture(scope = "session",
-                params = [("male", "ый"), ("female", "ая")],
-                ids = ["gender is male", "gender is female"])
+                params = [("male", "ый"), ("female", "ая"), (None, "ый")],
+                ids = ["gender is male", "gender is female", "gender is None"])
 def get_gender(request):
     return request.param
 
