@@ -92,10 +92,13 @@ def action_generator(local_manager_action_list):
 def generate_text(local_person, local_damn, local_action, local_manager, local_manager_damn, local_link):
     """Generate text for message"""
 
-    local_text = f"{local_person[1]}, {local_damn}, ты сегодня дежуришь!\n{local_link}\n\n" \
+    try:
+        local_text = f"{local_person[1]}, {local_damn}, ты сегодня дежуришь!\n{local_link}\n\n" \
                  f"Ну и {local_manager[1]}, как обычно, {local_action}, {local_manager_damn}."
-    print(local_text)
-    return local_text
+        print(local_text)
+        return local_text
+    except IndexError:
+        return None
 
 
 def send_push(local_chat_id, local_text):
