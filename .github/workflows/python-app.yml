@@ -30,7 +30,8 @@ jobs:
     - name: Test with pytest
       shell: bash
       run: |
-        cp settings/local.example.py settings/local.py
-        sed 's/your_token/${{ secrets.TELEGRAM_TOKEN }}/w local.py' settings/local.py
+        sed 's/your_token/${{ secrets.TELEGRAM_TOKEN }}/w local.py' settings/local.example.py
+        pwd
+        ls
         cat settings/local.py
         pytest -v
