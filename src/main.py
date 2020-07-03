@@ -2,6 +2,7 @@
 
 import random
 import requests
+import copy
 from requests import adapters
 from datetime import date
 
@@ -66,16 +67,19 @@ def check_gender(local_person):
 def damn_generator(local_gender, local_damn_noun_list, local_damn_adjective_list):
     """Damn generating is based on the person`s gender"""
 
+    copy_damn_noun_list = copy.deepcopy(local_damn_noun_list)
+    copy_damn_adjective_list = copy.deepcopy(local_damn_adjective_list)
+
     end = "ая" if local_gender == "female" else "ый"
-    noun_list_len = len(local_damn_noun_list)
-    adj_list_len = len(local_damn_adjective_list)
+    noun_list_len = len(copy_damn_noun_list)
+    adj_list_len = len(copy_damn_adjective_list)
 
     if local_gender == "female":
-        noun = local_damn_noun_list.pop(random.randint(0, noun_list_len - 1))[1]
-        adjective = local_damn_adjective_list.pop(random.randint(0, adj_list_len - 1)) + end
+        noun = copy_damn_noun_list.pop(random.randint(0, noun_list_len - 1))[1]
+        adjective = copy_damn_adjective_list.pop(random.randint(0, adj_list_len - 1)) + end
     else:
-        noun = local_damn_noun_list.pop(random.randint(0, noun_list_len - 1))[0]
-        adjective = local_damn_adjective_list.pop(random.randint(0, adj_list_len - 1)) + end
+        noun = copy_damn_noun_list.pop(random.randint(0, noun_list_len - 1))[0]
+        adjective = copy_damn_adjective_list.pop(random.randint(0, adj_list_len - 1)) + end
 
     local_damn = f"{noun} {adjective}"
 

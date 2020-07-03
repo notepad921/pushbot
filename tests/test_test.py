@@ -1,4 +1,4 @@
-import settings
+import pytest
 
 from src.main import check_is_day_off, check_weekday, choose_person, check_gender, action_generator,\
     damn_generator, generate_text, send_push
@@ -62,4 +62,34 @@ def test_send_push(get_data_for_push):
     """Temporary check of success of sending a message via telegram."""
     chat_id, text = get_data_for_push
     success = send_push(chat_id, text)
+    assert success is True
+
+
+@pytest.mark.integration
+@pytest.mark.trylast
+def test_integration(get_damn_noun_list, get_damn_adjective_list, get_date, get_person_list, get_manager_action_list,
+                     get_data_for_text, get_data_for_push):
+
+    damn_noun_list = get_damn_noun_list
+    damn_adjective_list = get_damn_adjective_list
+
+    weekday = check_weekday(get_date[0])
+    is_day_off = check_is_day_off(get_date[0])
+
+    manager = get_person_list.get("manager")
+    person = choose_person(weekday, get_person_list)
+    gender = check_gender(person)
+
+    action = action_generator(get_manager_action_list)
+    damn = damn_generator(gender, damn_noun_list, damn_adjective_list) if person else None
+    manager_damn = damn_generator(manager[2], damn_noun_list, damn_adjective_list)
+
+    text = generate_text(person, damn, action, manager, manager_damn, get_data_for_text[5])
+
+    if person and (is_day_off is False):
+        success = send_push(get_data_for_push[0], text)
+    else:
+        success = True
+        print("Сегодня не дежурим")
+
     assert success is True
