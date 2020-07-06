@@ -34,7 +34,7 @@ def test_action_generator(get_manager_action_list):
 
 
 def test_damn_generator(get_gender, get_damn_noun_list, get_damn_adjective_list):
-    """Checking the correct end of the adjective. Checking the deletion of the used word from lists after generating."""
+    """Checking the correct end of the adjective. Checking that the noun and adjective were on the source list."""
 
     damn = damn_generator(get_gender[0], get_damn_noun_list, get_damn_adjective_list)
     noun, adj = damn.split()
@@ -42,11 +42,10 @@ def test_damn_generator(get_gender, get_damn_noun_list, get_damn_adjective_list)
     adj_end, expected_adj_end = adj[-2:], get_gender[1]
 
     damn_noun_list = [item for sublist in get_damn_noun_list for item in sublist]
-    damn_adjective_list = [item for sublist in get_damn_adjective_list for item in sublist]
 
     assert adj_end == expected_adj_end
+    assert adj[:-2] in get_damn_adjective_list
     assert noun in damn_noun_list
-    assert adj in damn_adjective_list
 
 
 def test_generate_text(get_data_for_text):
