@@ -41,9 +41,12 @@ def test_damn_generator(get_gender, get_damn_noun_list, get_damn_adjective_list)
 
     adj_end, expected_adj_end = adj[-2:], get_gender[1]
 
+    damn_noun_list = [item for sublist in get_damn_noun_list for item in sublist]
+    damn_adjective_list = [item for sublist in get_damn_adjective_list for item in sublist]
+
     assert adj_end == expected_adj_end
-    assert noun not in get_damn_noun_list
-    assert adj not in get_damn_adjective_list
+    assert noun in damn_noun_list
+    assert adj in damn_adjective_list
 
 
 def test_generate_text(get_data_for_text):

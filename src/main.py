@@ -111,8 +111,8 @@ def send_push(local_chat_id, local_text):
     try:
         bot.send_message(local_chat_id, local_text)
         success = True
-    except OSError as error:
-        print(f"\n{error}\nCпасибо Роскомнадзору!")
+    except Exception as error:
+        print(f"\nЧто-то пошло не так: {repr(error)}!")
         success = False
     return success
 
