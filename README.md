@@ -27,30 +27,33 @@ tests/                   <= Tests
     ```bash
     cp settings/local.example.py settings/local.py
     ```
-2. Fill local.py.
 
-3. Install virtual environment package for python, for example python3-venv:
+2. Install virtual environment package for python, for example python3-venv:
 
     ```bash
     sudo apt install -y python3-venv
     ```
 
-4. Create virtual environment in the project directory:
+3. Create virtual environment in the project directory:
 
     ```bash
     python3 -m venv .env
     ```
 
-5. Activate your virtual environment:
+4. Activate your virtual environment:
 
     ```bash
     source .env/bin/activate
     ```
 
-6. Install requirements:
+5. Install requirements:
 
     ```bash
     pip install -r requirements.txt
     ```
+
+6. Get telegram bot TOKEN from @BotFather.
+
+7. Fill local.py. 
    
-7. Configure launching of the main.py script at the right time (for example, via cron).
+8. Configure launching of the main.py script at the right time (for example, via cron).
