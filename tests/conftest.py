@@ -22,7 +22,7 @@ def get_person_list():
 
 
 @pytest.fixture(scope = "session",
-                params = [("male", "ый"), ("female", "ая"), (None, "ый")],
+                params = ["male", "female", None],
                 ids = ["gender is male", "gender is female", "gender is None"])
 def get_gender(request):
     return request.param
@@ -36,7 +36,7 @@ def get_manager_action_list():
 
 @pytest.fixture(scope = "session")
 def get_damn_adjective_list():
-    test_damn_adjective_list = ["псоват", "незавидн", "дебиловат"]
+    test_damn_adjective_list = [("псоватый", "псоватая"), ("незавидный", "незавидная"), ("дебиловатый", "дебиловатая")]
     return test_damn_adjective_list
 
 

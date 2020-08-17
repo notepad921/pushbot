@@ -70,16 +70,15 @@ def damn_generator(local_gender, local_damn_noun_list, local_damn_adjective_list
     copy_damn_noun_list = copy.deepcopy(local_damn_noun_list)
     copy_damn_adjective_list = copy.deepcopy(local_damn_adjective_list)
 
-    end = "ая" if local_gender == "female" else "ый"
     noun_list_len = len(copy_damn_noun_list)
     adj_list_len = len(copy_damn_adjective_list)
 
     if local_gender == "female":
         noun = copy_damn_noun_list.pop(random.randint(0, noun_list_len - 1))[1]
-        adjective = copy_damn_adjective_list.pop(random.randint(0, adj_list_len - 1)) + end
+        adjective = copy_damn_adjective_list.pop(random.randint(0, adj_list_len - 1))[1]
     else:
         noun = copy_damn_noun_list.pop(random.randint(0, noun_list_len - 1))[0]
-        adjective = copy_damn_adjective_list.pop(random.randint(0, adj_list_len - 1)) + end
+        adjective = copy_damn_adjective_list.pop(random.randint(0, adj_list_len - 1))[0]
 
     local_damn = f"{noun} {adjective}"
 
