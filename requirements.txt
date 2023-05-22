@@ -1,4 +1,4 @@
 pyTelegramBotAPI==3.7.1
-requests==2.23.0
+requests==2.31.0
 pytest==5.4.2
 pytest-cov==2.9.0
